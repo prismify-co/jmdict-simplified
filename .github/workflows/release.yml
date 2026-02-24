@@ -126,6 +126,19 @@ jobs:
           for f in ./build/distributions/*.tgz; do
             mv $f ${f/$BUILD_VERSION_NUMBER/$BUILD_TAG}
           done
+      - name: Create unversioned alias archives
+        if: env.SOMETHING_UPDATED == 'YES'
+        run: |
+          for f in ./build/distributions/*.zip; do
+            base=$(basename $f)
+            alias=${base/$BUILD_TAG/latest}
+            cp $f ./build/distributions/$alias
+          done
+          for f in ./build/distributions/*.tgz; do
+            base=$(basename $f)
+            alias=${base/$BUILD_TAG/latest}
+            cp $f ./build/distributions/$alias
+          done
       - name: Create release
         if: env.SOMETHING_UPDATED == 'YES' && !inputs.dry_run
         shell: bash
