@@ -639,6 +639,18 @@ export type Kanjidic2Misc = {
    * now divided between N2 and N3."
    */
   jlptLevel: number | null;
+
+  /**
+   * Community-curated JLPT N-level (post-2010 system) for this kanji.
+   * 1 (N1, most advanced) to 5 (N5, most elementary).
+   * Some kanji are not assigned to any N-level.
+   *
+   * Source: AnchorI/jlpt-kanji-dictionary (MIT), derived from tanos.co.uk (CC-BY).
+   * Note: Official JLPT kanji lists do not exist for the N-level system.
+   * These are community-curated approximations used by jisho.org and most
+   * JLPT study tools.
+   */
+  jlptNewLevel: number | null;
 };
 
 export type Kanjidic2Variant = {
@@ -654,15 +666,15 @@ export type Kanjidic2Variant = {
    * - ucs - Unicode codepoint - hexadecimal
    */
   type:
-    | 'jis208'
-    | 'jis212'
-    | 'jis213'
-    | 'deroo'
-    | 'njecd'
-    | 's_h'
-    | 'nelson_c'
-    | 'oneill'
-    | 'ucs';
+  | 'jis208'
+  | 'jis212'
+  | 'jis213'
+  | 'deroo'
+  | 'njecd'
+  | 's_h'
+  | 'nelson_c'
+  | 'oneill'
+  | 'ucs';
   value: string;
 };
 
@@ -724,29 +736,29 @@ export type Kanjidic2DictionaryReferenceNotMorohashi = {
    * @see {@link Kanjidic2DictionaryReferenceMorohashi} for Morohashi ('moro') type
    */
   type:
-    | 'nelson_c'
-    | 'nelson_n'
-    | 'halpern_njecd'
-    | 'halpern_kkd'
-    | 'halpern_kkld'
-    | 'halpern_kkld_2ed'
-    | 'heisig'
-    | 'heisig6'
-    | 'gakken'
-    | 'oneill_names'
-    | 'oneill_kk'
-    | 'henshall'
-    | 'sh_kk'
-    | 'sh_kk2'
-    | 'sakade'
-    | 'jf_cards'
-    | 'henshall3'
-    | 'tutt_cards'
-    | 'crowley'
-    | 'kanji_in_context'
-    | 'busy_people'
-    | 'kodansha_compact'
-    | 'maniette';
+  | 'nelson_c'
+  | 'nelson_n'
+  | 'halpern_njecd'
+  | 'halpern_kkd'
+  | 'halpern_kkld'
+  | 'halpern_kkld_2ed'
+  | 'heisig'
+  | 'heisig6'
+  | 'gakken'
+  | 'oneill_names'
+  | 'oneill_kk'
+  | 'henshall'
+  | 'sh_kk'
+  | 'sh_kk2'
+  | 'sakade'
+  | 'jf_cards'
+  | 'henshall3'
+  | 'tutt_cards'
+  | 'crowley'
+  | 'kanji_in_context'
+  | 'busy_people'
+  | 'kodansha_compact'
+  | 'maniette';
   morohashi: null;
   value: string;
 };
@@ -787,11 +799,11 @@ export type Kanjidic2QueryCodeSkip = {
    * - stroke_diff - ambiguous stroke counts depending on glyph
    */
   skipMisclassification:
-    | 'posn'
-    | 'stroke_count'
-    | 'stroke_and_posn'
-    | 'stroke_diff'
-    | null;
+  | 'posn'
+  | 'stroke_count'
+  | 'stroke_and_posn'
+  | 'stroke_diff'
+  | null;
   value: string;
 };
 

@@ -74,6 +74,7 @@ sealed class Kanjidic2JsonElement {
         val frequency: Int?,
         val radicalNames: List<String>,
         val jlptLevel: Int?,
+        val jlptNewLevel: Int?,
     )
 
     @Serializable

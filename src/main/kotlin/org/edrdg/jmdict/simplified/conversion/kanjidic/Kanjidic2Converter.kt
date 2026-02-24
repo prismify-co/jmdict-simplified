@@ -7,15 +7,18 @@ import org.edrdg.jmdict.simplified.parsing.kanjidic.Kanjidic2XmlElement
 class Kanjidic2Converter : Converter<Kanjidic2XmlElement.Character, Kanjidic2JsonElement.Character, Kanjidic2Metadata>() {
     override fun entity(value: String) = ""
 
-    override fun convert(xmlEntry: Kanjidic2XmlElement.Character) = Kanjidic2JsonElement.Character(
-        literal = xmlEntry.literal.text,
-        codepoints = xmlEntry.codepoint.cpValues.map { codepoint(it) },
-        radicals = xmlEntry.radical.radValues.map { radical(it) },
-        misc = misc(xmlEntry.misc),
-        dictionaryReferences = xmlEntry.dicNumber?.dicRefs?.map { dictionaryReference(it) }.orEmpty(),
-        queryCodes = xmlEntry.queryCode?.qCodes?.map { queryCode(it) }.orEmpty(),
-        readingMeaning = xmlEntry.readingMeaning?.let { readingMeaning(it) },
-    )
+    override fun convert(xmlEntry: Kanjidic2XmlElement.Character): Kanjidic2JsonElement.Character {
+        val literal = xmlEntry.literal.text
+        return Kanjidic2JsonElement.Character(
+            literal = literal,
+            codepoints = xmlEntry.codepoint.cpValues.map { codepoint(it) },
+            radicals = xmlEntry.radical.radValues.map { radical(it) },
+            misc = misc(xmlEntry.misc, literal),
+            dictionaryReferences = xmlEntry.dicNumber?.dicRefs?.map { dictionaryReference(it) }.orEmpty(),
+            queryCodes = xmlEntry.queryCode?.qCodes?.map { queryCode(it) }.orEmpty(),
+            readingMeaning = xmlEntry.readingMeaning?.let { readingMeaning(it) },
+        )
+    }
 
     private fun codepoint(cpValue: Kanjidic2XmlElement.CpValue) = Kanjidic2JsonElement.Codepoint(
         type = when (cpValue.cpType) {
@@ -35,7 +38,7 @@ class Kanjidic2Converter : Converter<Kanjidic2XmlElement.Character, Kanjidic2Jso
         value = radValue.value,
     )
 
-    private fun misc(misc: Kanjidic2XmlElement.Misc) = Kanjidic2JsonElement.Misc(
+    private fun misc(misc: Kanjidic2XmlElement.Misc, literal: String) = Kanjidic2JsonElement.Misc(
         grade = misc.grade?.value,
         strokeCounts = misc.strokeCounts.map { it.value },
         variants = misc.variants.map { variant ->
@@ -57,6 +60,7 @@ class Kanjidic2Converter : Converter<Kanjidic2XmlElement.Character, Kanjidic2Jso
         frequency = misc.freq?.value,
         radicalNames = misc.radNames.map { it.text },
         jlptLevel = misc.jlpt?.value,
+        jlptNewLevel = JlptNLevelData.kanjiToLevel[literal],
     )
 
     private fun dictionaryReference(dicRef: Kanjidic2XmlElement.DicRef): Kanjidic2JsonElement.DictionaryReference {
